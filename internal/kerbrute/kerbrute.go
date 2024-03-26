@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/BrunoTeixeira1996/gowned/internal/bh"
 )
 
 type Account struct {
@@ -42,7 +44,7 @@ func readOutput(wantOutput bool) []Account {
 	return accounts
 }
 
-func Execute(wantOutput bool) error {
+func Execute(wantOutput bool, neo4j bh.Neo4j) error {
 	accounts := readOutput(wantOutput)
 
 	if accounts != nil {
