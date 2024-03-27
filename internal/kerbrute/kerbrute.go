@@ -10,17 +10,14 @@ import (
 	"github.com/BrunoTeixeira1996/gowned/internal/bh"
 )
 
-type Account struct {
-	Email    string
-	Password string
-}
+
 
 // Function that reads the output
 // created the Accounts slice of structs
 // and returns that slice
-func readOutput(wantOutput bool) []Account {
+func readOutput(wantOutput bool) []bh.ValidAccount {
 	var (
-		accounts  []Account
+		accounts  []bh.ValidAccount
 		rawOutput string
 	)
 
@@ -32,7 +29,7 @@ func readOutput(wantOutput bool) []Account {
 		}
 		rawOutput += sc.Text() + "\n"
 		if strings.Contains(sc.Text(), "VALID LOGIN") {
-			var acc Account
+			var acc bh.ValidAccount
 			tmp := strings.Split(strings.Split(sc.Text(), " ")[7], ":")
 			acc.Email = tmp[0]
 			acc.Password = tmp[1]
@@ -44,12 +41,17 @@ func readOutput(wantOutput bool) []Account {
 	return accounts
 }
 
-func Execute(wantOutput bool, neo4j bh.Neo4j) error {
+func Execute(wantOutput bool, n bh.Neo4jManager) error {
 	accounts := readOutput(wantOutput)
 
 	if accounts != nil {
-		for _, v := range accounts {
-			log.Printf("Adding %s as owned\n", v.Email)
+		for _, user := range accounts {
+			err := bh.MarkAsOwned(n, user)
+			if err != nil {
+				log.Println(err)
+			} else {
+			log.Printf("Added %s as owned\n", user.Email)
+			}
 		}
 	}
 
