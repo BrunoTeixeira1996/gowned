@@ -1,4 +1,4 @@
-Mark users has owned in BloodHound from various sources
+Mark users as owned in BloodHound from various sources
 
 # Tools
 
