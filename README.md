@@ -1,13 +1,7 @@
-Mark users as owned in BloodHound from various sources
-
-# Tools
-
-- [X] Kerbrute
-- [ ] SharpSpray
+Mark users as owned in BloodHound from kerbrute output
 
 # Usage
 
-## Using Kerbrute
 
 ``` console
 $ kerbrute passwordspray list_of_users.txt --dc 192.168.30.51 --domain MARVEL.local 'P@ssword321' | gowned -source 'kerbrute' -output
